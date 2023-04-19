@@ -323,3 +323,5 @@ plain_text = b"Do not go gentle into that good night,\r\n"+\
             b"Curse, bless me now with your fierce tears, I pray.\r\n"+\
             b"Do not go gentle into that good night.\r\n"+\
             b"Rage, rage against the dying of the light.\r\n"
+nobody = b""
+default_body = b"Hello!Best wishes.\r\n"

