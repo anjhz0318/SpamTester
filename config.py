@@ -1,5 +1,5 @@
 config = {
-	"attacker_site": b"whitemili.com", # attack.com
+	"attacker_site": b"anjhz.com", # attack.com
 	"legitimate_site_address": b"admin@baidu.com", # From header address displayed to the end-user
 	"victim_address": b"anjhz0318@mail.ru", # RCPT TO and message.To header address, 
 	"case_id": b"server_a1", #  You can find all case_id using -l option.

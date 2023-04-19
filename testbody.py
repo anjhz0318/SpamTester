@@ -1,3 +1,25 @@
+import random
+
+
+def random_plain_text_generator():
+    rows = random.randint(1,10)
+    ret_body = b""
+    for i in range(rows):
+        word_cnt = random.randint(1,20)
+        this_row = b""
+        for j in range(word_cnt):
+            character_cnt = random.randint(1,10)
+            this_word = b""
+            for k in range(character_cnt):
+                this_word = this_word + str(chr(random.randint(97,122))).encode()
+            if j == 0:
+                this_row = this_word
+            else:
+                this_row = this_row + b" " + this_word
+        this_row = this_row + b"\r\n"
+        ret_body = ret_body + this_row
+    return ret_body
+
 url_body=b"------=_Part_111217_462031992.1680524601073\r\n"+\
             b"Content-Type: multipart/alternative;\r\n"+\
             b"\tboundary=\"----=_Part_111219_2139611906.1680524601073\"\r\n"+\
@@ -325,3 +347,6 @@ plain_text = b"Do not go gentle into that good night,\r\n"+\
             b"Rage, rage against the dying of the light.\r\n"
 nobody = b""
 default_body = b"Hello!Best wishes.\r\n"
+random_body = b""
+
+random_plain_text = random_plain_text_generator()

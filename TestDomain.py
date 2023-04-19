@@ -53,12 +53,11 @@ def add_wrong_headers():
             id_generator() + b"@message-ids.attack.com>\r\nX-Email-Client: https://github.com/chenjj/espoofer\r\n\r\n"
 def main():
     test_account = b"anjhz0318"
-    test_domain = b"mail.ru"
+    test_domain = b"gmail.com"
     config["victim_address"]=test_account + b"@"+ test_domain
     config["to_header"]=b"To: <"+test_account+b"@"+ test_domain +b">\r\n"
     config['mode'] = "s"
     
-    add_multipart_headers()
     for tls_status in [True]:
         config["server_mode"]["starttls"] = tls_status
         if tls_status == False:
@@ -114,63 +113,80 @@ def main():
                         test_cases["server_a1"]["data"]["from_header"] = b"From: <admin@yahoo.com>\r\n"
                         prefix4 = b"Dmarc Reject-" + prefix3
                     '''
-                    config["legitimate_site_address"] = b"admin@whitemili.com"
-                    test_cases["server_a3"]["data"]["from_header"] = b"From: <admin@whitemili.com>\r\n"
+                    config["legitimate_site_address"] = b"admin@anjhz.com"
+                    test_cases["server_a3"]["data"]["from_header"] = b"From: <admin@anjhz.com>\r\n"
                     prefix4 = b"Normal-" + prefix3
                     '''
                     for i in range(1):
                         config["subject_header"]=b"Subject: "+prefix4+b"-URL-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.url_body
+                        add_multipart_headers()
                         send_test_mail()
                         time.sleep(3)
     
                     for i in range(1):
                         config["subject_header"]=b"Subject: "+prefix4+b"-Attachment-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.attachment_body
+                        add_multipart_headers()
                         send_test_mail()
                         time.sleep(3)
     
                     for i in range(1):
                         config["subject_header"]=b"Subject: "+prefix4+b"-Attachment and URL-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.attachment_and_url_body
+                        add_multipart_headers()
                         send_test_mail()
                         time.sleep(3)
 
                     for i in range(1):
                         config["subject_header"]=b"Subject: "+prefix4+b"-Text Only-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.text_only_body
+                        add_multipart_headers()
                         send_test_mail()
                         time.sleep(3)
 
                     for i in range(1):
                         config["subject_header"]=b"Subject: "+prefix4+b"-Text and URL-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.text_and_url_body
+                        add_multipart_headers()
                         send_test_mail()
                         time.sleep(3)
 
                     for i in range(1):
                         config["subject_header"]=b"Subject: "+prefix4+b"-Text and Attachment-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.text_and_attachment_body
+                        add_multipart_headers()
                         send_test_mail()
                         time.sleep(3)
 
                     for i in range(1):
                         config["subject_header"]=b"Subject: "+prefix4+b"-Text and URL and Attachment-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.text_and_url_and_attachment_body
+                        add_multipart_headers()
                         send_test_mail()
                         time.sleep(3)
                     '''
                     '''
                     for i in range(3):
                         config["subject_header"]=b"Subject: "+prefix4+b"-Plain Text-"+str(i+1).encode()+b"\r\n"
-                        config["body"]=testbody.plain_text
+                        config["body"]=testbody.random_body
                         add_wrong_headers()
                         send_test_mail()
                         time.sleep(3)
                     '''
-                    for i in range(5):
-                        config["subject_header"]=b"Subject: "+prefix4+b"-Plain Text and default body-"+str(i+1).encode()+b"\r\n"
+                    
+                    '''
+                    for i in range(3):
+                        config["subject_header"]=b"Subject: "+prefix4+b"-Default body-"+str(i+1).encode()+b"\r\n"
                         config["body"]=testbody.default_body
+                        add_plain_text_headers()
+                        send_test_mail()
+                        time.sleep(3)
+                    '''
+                    
+                    for i in range(3):
+                        config["subject_header"]=b"Subject: "+prefix4+b"-Random Plain Text-"+str(i+1).encode()+b"\r\n"
+                        config["body"]=testbody.random_plain_text
                         add_plain_text_headers()
                         send_test_mail()
                         time.sleep(3)
